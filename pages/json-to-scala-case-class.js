@@ -2,26 +2,27 @@ import React, { PureComponent } from "react";
 import Layout from "../components/Layout";
 import ConversionPanel from "../components/ConversionPanel";
 import defaultText from "../utils/dummy-json";
-import PoweredBy from "../components/PoweredBy";
-
-export default class Json2Ts extends PureComponent {
-  getTransformedValue = code => window.json2ts(code);
+import transform from "transform-json-types";
+export default class extends PureComponent {
+  getTransformedValue = code =>
+    transform(code, {
+      lang: "scala"
+    });
 
   render() {
     return (
-      <Layout key="layout" pathname={this.props.url.pathname}>
+      <Layout pathname={this.props.url.pathname}>
         <ConversionPanel
           leftTitle="JSON"
-          rightTitle="TypeScript Interface"
+          rightTitle="Scala Case Class"
           getTransformedValue={this.getTransformedValue}
-          name={"ts_interface"}
+          name={"scala_case_class"}
           defaultText={defaultText}
           leftMode="json"
-          rightMode="typescript"
+          rightMode="scala"
           url={this.props.url}
           prettifyRightPanel={false}
         />
-        <PoweredBy pathname={this.props.url.pathname} />
       </Layout>
     );
   }

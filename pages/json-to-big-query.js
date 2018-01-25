@@ -1,25 +1,29 @@
 import React, { PureComponent } from "react";
+import { bigquery } from "generate-schema";
+import stringify from "stringify-object";
 import Layout from "../components/Layout";
 import ConversionPanel from "../components/ConversionPanel";
-import defaultText from "../utils/dummy-json";
 import PoweredBy from "../components/PoweredBy";
+import defaultText from "../utils/dummy-object-json";
 
 export default class Json2Ts extends PureComponent {
-  getTransformedValue = code => window.json2ts(code);
+  getTransformedValue = newValue => {
+    const value = JSON.parse(newValue);
+    return stringify(bigquery(value));
+  };
 
   render() {
     return (
-      <Layout key="layout" pathname={this.props.url.pathname}>
+      <Layout pathname={this.props.url.pathname}>
         <ConversionPanel
           leftTitle="JSON"
-          rightTitle="TypeScript Interface"
+          rightTitle="Big Query Schema"
           getTransformedValue={this.getTransformedValue}
-          name={"ts_interface"}
+          name={"big-query"}
           defaultText={defaultText}
           leftMode="json"
-          rightMode="typescript"
+          rightMode="javascript"
           url={this.props.url}
-          prettifyRightPanel={false}
         />
         <PoweredBy pathname={this.props.url.pathname} />
       </Layout>

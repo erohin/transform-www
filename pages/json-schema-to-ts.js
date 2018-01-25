@@ -1,22 +1,23 @@
 import React, { PureComponent } from "react";
 import Layout from "../components/Layout";
 import ConversionPanel from "../components/ConversionPanel";
-import defaultText from "../utils/dummy-json";
+import { compile } from "json-schema-to-typescript";
+import json from "../utils/dummy-json-schema";
 import PoweredBy from "../components/PoweredBy";
 
 export default class Json2Ts extends PureComponent {
-  getTransformedValue = code => window.json2ts(code);
+  getTransformedValue = code => compile(eval("(" + code + ")"));
 
   render() {
     return (
-      <Layout key="layout" pathname={this.props.url.pathname}>
+      <Layout pathname={this.props.url.pathname}>
         <ConversionPanel
-          leftTitle="JSON"
+          leftTitle="JSON Schema"
           rightTitle="TypeScript Interface"
           getTransformedValue={this.getTransformedValue}
           name={"ts_interface"}
-          defaultText={defaultText}
-          leftMode="json"
+          defaultText={json}
+          leftMode="javascript"
           rightMode="typescript"
           url={this.props.url}
           prettifyRightPanel={false}

@@ -3,5 +3,8 @@
 node_modules
 
 .idea
-
+out
 yarn-error.log
+transform
+
+.vscode
